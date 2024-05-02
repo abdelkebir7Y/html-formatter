@@ -1,0 +1,632 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Fertilisation</title>
+
+    <style>
+      /* reset */
+
+      * {
+        border: 0;
+        box-sizing: content-box;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        vertical-align: top;
+      }
+
+      /* heading */
+
+      h1 {
+        font: bold 100% sans-serif;
+        letter-spacing: 0.1em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        font: bold 100% sans-serif;
+        font-size: 0.7em;
+        letter-spacing: 0.05em;
+        text-align: left;
+        text-transform: uppercase;
+      }
+
+      /* table */
+
+      table {
+        font-size: 75%;
+        width: 100%;
+      }
+      table {
+        border-collapse: separate;
+        border-spacing: 2px;
+      }
+      th,
+      td {
+        border-width: 1px;
+        padding: 0.5em;
+        position: relative;
+        text-align: left;
+      }
+      th,
+      td {
+        border-radius: 0.25em;
+        border-style: solid;
+      }
+      th {
+        background: #eee;
+        border-color: #bbb;
+      }
+      td {
+        border-color: #ddd;
+      }
+
+      /* page */
+      * {
+        -webkit-print-color-adjust: exact;
+      }
+
+      html {
+        font: 16px/1 "Open Sans", sans-serif;
+        overflow: auto;
+        background: none;
+        padding: 0;
+      }
+      html {
+        cursor: default;
+      }
+
+      body {
+        box-sizing: border-box;
+        width: 8.5in;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      p {
+        font-size: 0.8em;
+        padding-left: 8px;
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        height: 305mm;
+        overflow: hidden;
+        padding: 7.5mm;
+        box-shadow: none;
+        margin: 0;
+      }
+
+      /* header */
+
+      header {
+        margin: 0 0 2em;
+        border: 1px solid #bbb;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 4px;
+        height: 80px;
+      }
+      .divider {
+        height: 100%;
+        width: 1px;
+        background-color: #bbb;
+      }
+      .divider.horizontal {
+        width: 100%;
+        height: 1px;
+        background-color: #bbb;
+      }
+      .section {
+        width: 33.33%;
+        padding: 8px;
+      }
+      .section.right {
+        height: 80%;
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .section.large {
+        width: 66.66%;
+      }
+
+      header:after {
+        clear: both;
+        content: "";
+        display: table;
+      }
+
+      header h1 {
+        border-radius: 0.25em;
+        color: #000;
+        margin: 0 0 1em;
+        padding: 0.5em 0;
+      }
+      header img {
+        height: 50px;
+      }
+
+      /* article */
+
+      article,
+      table.transport,
+      table.meta,
+      table.inventory {
+        margin: 0 0 1em;
+      }
+      article:after {
+        clear: both;
+        content: "";
+        display: table;
+      }
+
+      /* table meta & balance */
+
+      table.meta {
+        float: right;
+        width: 36%;
+      }
+      table.meta.left {
+        float: left;
+      }
+      table.meta:after {
+        clear: both;
+        content: "";
+        display: table;
+      }
+
+      /* table meta */
+
+      table.meta th {
+        width: 50%;
+        text-align: left;
+      }
+      table.meta td {
+        width: 50%;
+      }
+
+      /* table items */
+      table th {
+        font-weight: 500;
+        text-align: center;
+      }
+      table.harvests td:nth-child(5),
+      table.harvests td:nth-child(6) {
+        width: 15%;
+        text-align: right;
+      }
+      #right {
+        text-align: right;
+      }
+      #left {
+        text-align: left;
+      }
+
+      /* table parcels */
+
+      table.parcels td:nth-child(5) {
+        width: 15%;
+      }
+
+      /*footer */
+      footer {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+
+      footer .bottomSection {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 8px;
+      }
+
+      footer .qrCode {
+        border: 0.5px solid #999;
+        margin: 0px;
+        border-radius: 4px;
+        width: 126px;
+        height: 126px;
+        padding: 8px;
+        overflow: hidden;
+        background-color: #fff;
+      }
+
+      footer .signature {
+        flex: 1;
+        flex-shrink: 333;
+        margin: 0px;
+      }
+
+      footer .signature td {
+        height: 75px;
+      }
+
+      footer .qrCode img {
+        width: 100%;
+        height: 100%;
+      }
+
+      @page {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <header>
+        <div class="section">
+          <img alt="" src="https://system.mahaintaj.com/logo.png" />
+        </div>
+        <div class="divider"></div>
+        <div class="section large">
+          <h1>Fertilisation</h1>
+        </div>
+        <div class="divider"></div>
+        <div class="section right">
+          <p>Réf: N° F3. Cntr, Res</p>
+          <div class="divider horizontal"></div>
+          <p>Version: 3.0 / 2023</p>
+          <div class="divider horizontal"></div>
+          <p id="page-number">Page: 1/1</p>
+        </div>
+      </header>
+      <div>
+        <table class="meta left">
+          <tr>
+            <th>Référence</th>
+            <td>FE2400003</td>
+          </tr>
+          <tr>
+            <th>Date</th>
+            <td>30/04/2024</td>
+          </tr>
+          <tr>
+            <th>Type de fertilisation</th>
+            <td>Fertigation</td>
+          </tr>
+        </table>
+        <table class="meta">
+          <tr>
+            <th>Ferme</th>
+            <td>TAGOUTE</td>
+          </tr>
+          <tr>
+            <th>Dépôt</th>
+            <td>undefined</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <article>
+      <h2>Consommation d'engrais :</h2>
+      <br />
+      <table class="fertilizersConsumption">
+        <thead>
+          <tr>
+            <th>Engrais</th>
+            <th>Quantité (kg)</th>
+            <th>Coût (DH)</th>
+            <th>Coût / m² (DH)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AMMONITRATE</td>
+            <td id="right">75</td>
+            <td id="right">0</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE CALCIUM</td>
+            <td id="right">45</td>
+            <td id="right">0</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE POTASSE</td>
+            <td id="right">60</td>
+            <td id="right">0</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>CARBO ZINC</td>
+            <td id="right">1.5</td>
+            <td id="right">0</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <th id="left">Total</th>
+            <th id="right">181.5</th>
+            <th id="right">0</th>
+            <th id="right">0</th>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article>
+      <h2>Parcelles :</h2>
+      <br />
+      <table class="parcels">
+        <thead>
+          <tr>
+            <th>Parcelle / Serre</th>
+            <th>Culture</th>
+            <th>Variété</th>
+            <th>Superficie (ha)</th>
+            <th>Dose (mm)</th>
+            <th>Engrais</th>
+            <th>Quantité (kg)</th>
+            <th>Coût (DH)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4">TAGS1 VITTORINO</td>
+            <td rowspan="4">Tomate</td>
+            <td rowspan="4">VITTORINO</td>
+            <td rowspan="4" id="right">1</td>
+            <td rowspan="4" id="right">0</td>
+            <td>AMMONITRATE</td>
+            <td id="right">12.61</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE CALCIUM</td>
+            <td id="right">7.56</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE POTASSE</td>
+            <td id="right">10.08</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>CARBO ZINC</td>
+            <td id="right">0.25</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td rowspan="4">TAGS2 VITTORINO</td>
+            <td rowspan="4">Tomate</td>
+            <td rowspan="4">VITTORINO</td>
+            <td rowspan="4" id="right">1</td>
+            <td rowspan="4" id="right">0</td>
+            <td>AMMONITRATE</td>
+            <td id="right">12.61</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE CALCIUM</td>
+            <td id="right">7.56</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE POTASSE</td>
+            <td id="right">10.08</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>CARBO ZINC</td>
+            <td id="right">0.25</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td rowspan="4">TAGS3 ASTUTO</td>
+            <td rowspan="4">Tomate</td>
+            <td rowspan="4">ASTUTO</td>
+            <td rowspan="4" id="right">0.95</td>
+            <td rowspan="4" id="right">0</td>
+            <td>AMMONITRATE</td>
+            <td id="right">11.97</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE CALCIUM</td>
+            <td id="right">7.18</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE POTASSE</td>
+            <td id="right">9.58</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>CARBO ZINC</td>
+            <td id="right">0.24</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td rowspan="4">TAGS4 ASTUTO</td>
+            <td rowspan="4">Tomate</td>
+            <td rowspan="4">ASTUTO</td>
+            <td rowspan="4" id="right">0.95</td>
+            <td rowspan="4" id="right">0</td>
+            <td>AMMONITRATE</td>
+            <td id="right">11.97</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE CALCIUM</td>
+            <td id="right">7.18</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE POTASSE</td>
+            <td id="right">9.58</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>CARBO ZINC</td>
+            <td id="right">0.24</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td rowspan="4">TAGS5 ASTUTO</td>
+            <td rowspan="4">Tomate</td>
+            <td rowspan="4">ASTUTO</td>
+            <td rowspan="4" id="right">0.62</td>
+            <td rowspan="4" id="right">0</td>
+            <td>AMMONITRATE</td>
+            <td id="right">7.82</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE CALCIUM</td>
+            <td id="right">4.69</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE POTASSE</td>
+            <td id="right">6.25</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>CARBO ZINC</td>
+            <td id="right">0.16</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td rowspan="4">TAGS6 ASTUTO</td>
+            <td rowspan="4">Tomate</td>
+            <td rowspan="4">ASTUTO</td>
+            <td rowspan="4" id="right">1</td>
+            <td rowspan="4" id="right">0</td>
+            <td>AMMONITRATE</td>
+            <td id="right">12.61</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE CALCIUM</td>
+            <td id="right">7.56</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE POTASSE</td>
+            <td id="right">10.08</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>CARBO ZINC</td>
+            <td id="right">0.25</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td rowspan="4">TAGS5 GENIO</td>
+            <td rowspan="4">Tomate</td>
+            <td rowspan="4">GENIO</td>
+            <td rowspan="4" id="right">0.43</td>
+            <td rowspan="4" id="right">0</td>
+            <td>AMMONITRATE</td>
+            <td id="right">5.42</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE CALCIUM</td>
+            <td id="right">3.25</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>NITRATE DE POTASSE</td>
+            <td id="right">4.34</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <td>CARBO ZINC</td>
+            <td id="right">0.11</td>
+            <td id="right">0</td>
+          </tr>
+
+          <tr>
+            <th id="left" colspan="3">Total</th>
+            <th id="right">5.95</th>
+            <th></th>
+            <th></th>
+            <th id="right">181.5</th>
+            <th id="right">0</th>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <footer>
+      <div class="bottomSection">
+        <div class="signature">
+          <h2>Signature :</h2>
+          <br />
+          <table>
+            <thead>
+              <tr>
+                <th>Responsable</th>
+                <th>Operateur</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>BRAHIM BENHAMMOU</td>
+                <td>BRAHIM BENHAMMOU</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="qrCode">
+          <img
+            alt=""
+            src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=FE2400003"
+          />
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
